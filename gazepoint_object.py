@@ -43,7 +43,6 @@ class gazepoint_object():
         #connect to socket
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect(self.address)
-        print "Connection established"
         #tell the server what data to track
         self.s.send(str.encode('<SET ID="ENABLE_SEND_POG_FIX" STATE="1" />\r\n'))
         self.s.send(str.encode('<SET ID="ENABLE_SEND_POG_BEST" STATE="1" />\r\n'))
@@ -73,3 +72,4 @@ class gazepoint_object():
         self.s.send(str.encode('<SET ID="ENABLE_SEND_CURSOR" STATE="0" />\r\n'))
         self.s.send(str.encode('<SET ID="ENABLE_SEND_DATA" STATE="0" />\r\n'))
         self.s.close()
+        return

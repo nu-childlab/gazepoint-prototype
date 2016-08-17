@@ -34,15 +34,6 @@ else:
     prompt = "woah"
 
 
-############calibration
-gp = gazepoint_object()
-while True:
-    calibration_results = gp.calibrate(calibration_time)
-    calibrationfile.write(calibration_results)
-    response = raw_input("Experimenter: Was the calibration successful? y/[n]: ")
-    if re.search("^y", response, re.IGNORECASE):
-        break
-
 ############File setup
 calibrationfile = open("calibration_results.txt", 'wb')
 responsefile = open("responses.csv", 'wb')
@@ -53,6 +44,15 @@ trackingfile = open("trackingdata.csv", 'wb')
 trackingfields = ['trial', 'image', 'tracking data']
 trackingwriter = csv.DictWriter(trackingfile,trackingfields)
 trackingwriter.writeheader()
+
+############calibration
+gp = gazepoint_object()
+while True:
+    calibration_results = gp.calibrate(calibration_time)
+    calibrationfile.write(calibration_results)
+    response = raw_input("Experimenter: Was the calibration successful? y/[n]: ")
+    if re.search("^y", response, re.IGNORECASE):
+        break
 
 #get all the images
 tempfiles = [f for f in listdir(stim_directory) if isfile(join(stim_directory, f))]
@@ -69,8 +69,15 @@ myWin = visual.Window((1000,1000), monitor='testMonitor',allowGUI=False, color=(
 for stim in images:
     stimuli_list.append(visual.ImageStim(myWin, image=stim_directory+"/"+stim, pos=(0,0), units='deg'))
 
-#Prep response variables
 background = visual.Rect(myWin, lineWidth=0, fillColor="black", size=[800,800], pos=[0,0])
+instructions = visual.TextStim(myWin, text="Welcome to the experiment or whatever", height=60,color='white', pos=[0,0], units='pixels')
+background.draw()
+instructions.draw()
+myWin.flip()
+while True:
+    event.waitKeys()
+    break
+#Prep response variables
 question_stim = visual.TextStim(myWin, text=question, height=60,color='white', pos=[0,0], units='pixels')
 prompt_stim = visual.TextStim(myWin, text=prompt, height=30, color='white', pos=[0,-60], units='pixels')
 
