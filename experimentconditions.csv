@@ -1,0 +1,2 @@
+calibration_time,display_time,stim_directory,repetitions,question,keylist,prompt
+15.0,2.0,C:/Users/expt102/Documents/gazepoint_code/gazepoint_psychopy/28px,1,Is A taller than B?,"['f', 'j']",Press f for yes or j for no
