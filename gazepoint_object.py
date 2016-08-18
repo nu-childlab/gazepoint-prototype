@@ -7,12 +7,10 @@ class gazepoint_object():
         self.host = host
         self.port = port
         self.address = (host, port)
-        # self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # self.s.connect(self.address)
-        # print "Connection established"
         return
 
     def calibrate(self, duration=15):
+        """Runs the calibration screen, and leaves it open for [duration] seconds. Returns the data from calibration"""
         #Make another socket do it doesn't interfere with data reception
         calib_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         calib_socket.connect(self.address)
@@ -39,7 +37,7 @@ class gazepoint_object():
         return ''.join(data)
 
     def init_data(self):
-        """Run this function before using get_data to read eye tracking data"""
+        """Run this function before using get_data to read eye tracking data."""
         #connect to socket
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect(self.address)
@@ -54,8 +52,7 @@ class gazepoint_object():
         return
 
     def get_data(self, duration=0):
-        """Retrieves tracking data. If no duration is given, it will get just
-        one point. If a duration is given, it will track for that duration."""
+        """Retrieves tracking data. If no duration is given, it will get just one point. If a duration is given, it will track for that duration. Returns a list of the data lines retrieved from the server."""
         results = []
         if not duration:
             rxdat = self.s.recv(1024)
@@ -67,7 +64,17 @@ class gazepoint_object():
             #print(bytes.decode(rxdat))
         return results
 
+    def get_data_until_response(self, keylist=['q']):
+        """Retrieves tracking data until a key is pressed. Returns the data gathered as a list of points."""
+        results = []
+        while not event.getKeys(keyList=keylist):
+            rxdat = self.s.recv(1024)
+            results += [bytes.decode(rxdat)]
+            #print(bytes.decode(rxdat))
+        return results
+
     def end_data(self):
+        """Stops the connection to the eystracker to stop sending data."""
         self.s.send(str.encode('<SET ID="ENABLE_SEND_POG_FIX" STATE="0" />\r\n'))
         self.s.send(str.encode('<SET ID="ENABLE_SEND_CURSOR" STATE="0" />\r\n'))
         self.s.send(str.encode('<SET ID="ENABLE_SEND_DATA" STATE="0" />\r\n'))

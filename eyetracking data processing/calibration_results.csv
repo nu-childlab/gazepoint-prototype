@@ -1,0 +1,11 @@
+data type,point,x calibration,y calibration,average error,valid points
+START,1,0.5000,0.5000,,
+RESULT,1,0.5000,0.5000,,
+START,2,0.8500,0.1500,,
+RESULT,2,0.8500,0.1500,,
+START,3,0.8500,0.8500,,
+RESULT,3,0.8500,0.8500,,
+START,4,0.1500,0.8500,,
+RESULT,4,0.1500,0.8500,,
+START,5,0.1500,0.1500,,
+SUMMARY,,,,0.00,0

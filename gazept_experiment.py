@@ -25,6 +25,7 @@ if os.path.isfile('experimentconditions.csv'):
             keylist = ast.literal_eval(row["keylist"])
             prompt = row["prompt"]
 else:
+    #If you don't want to go through the condition generator, you can change these parameters directly.
     calibration_time = 11
     display_time = 2
     stim_directory = "C:/Users/expt102/Documents/gazepoint_code/gazepoint_psychopy/28px"

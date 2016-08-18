@@ -85,17 +85,21 @@ while True:
         if re.search("^y", response, re.IGNORECASE):
             break
     else:
-        print "Ok, please type your list of keys! Each key should be one (lowercase) letter or number, and they should be separated by a comma"
+        print "Ok, please type your list of keys! Each key should be one (lowercase) letter or number or space character, and they should be separated by a comma"
         key_input = raw_input("Please enter all of your keys, separated by commas!: ")
-        key_input = key_input.replace(" ","")
+        #key_input = key_input.replace(" ","")
         key_input = key_input.split(",")
         keylist = []
         for key in key_input:
-            key = key[0]
-            if re.search("^[a-zA-Z]$", key):
+            #key = key[0]
+            if re.search(r"^ ?[a-zA-Z]", key):
+                key = key.replace(" ","")[0]
                 keylist.append(key.lower())
-            elif re.search("^[0-9]$", key):
+            elif re.search(r"^ ?[0-9]", key):
+                key = key.replace(" ","")[0]
                 keylist.append(key)
+            elif re.search(r"^ ", key):
+                keylist.append("space")
         print "Your finalized list is: "
         print keylist
         response = raw_input("Is this right? y/[n]")
