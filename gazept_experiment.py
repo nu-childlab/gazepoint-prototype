@@ -10,6 +10,8 @@ import time
 import random
 import ast
 
+#subject number retrieval
+
 #############Parameters!!
 if os.path.isfile('experimentconditions.csv'):
     #get conditions

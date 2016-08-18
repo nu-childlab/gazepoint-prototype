@@ -1,6 +1,9 @@
 import csv
 import re
 
+#GOALS: Look through all the files in a chosen data directory, and use re's to separate which to process
+#Produce individual files and aggregate files
+
 with open('testdata/calibration_results.txt') as f:
     calibration_results = f.readlines()
 
