@@ -28,30 +28,25 @@ for line in calibration_results:
 
 calibfile.close()
 
-trackingfile_read = open('testdata/trackingdata.csv', 'r')
-trackingreader = csv.DictReader(trackingfile_read)
-trackingfile_write = open('testdata/trackingdata_results.csv', 'wb')
-trackingfields = ['trial', 'image', 'time', 'Fixation POG X', 'Fixation POG Y', 'Fixation POG time since calibration', 'Fixation POG duration', 'Fixation POG ID', 'Valid POG fixation?', 'Best POG X', 'Best POG Y', 'Valid Best POG fixation?']
-trackingwriter = csv.DictWriter(trackingfile_write, calibfields)
-trackingwriter.writeheader()
-
-for line in trackingfile_read:
-    if re.search("ACK ID=", line['tracking data']):
+with open('testdata/trackingdata.csv') as f:
+    trackingfile_write = open('trackingdata_results.csv', 'wb')
+    trackingfields = ['trial', 'image', 'time', 'Fixation POG X', 'Fixation POG Y', 'Fixation POG time since calibration', 'Fixation POG duration', 'Fixation POG ID', 'Valid POG fixation?', 'Best POG X', 'Best POG Y', 'Valid Best POG fixation?']
+    trackingwriter = csv.DictWriter(trackingfile_write, trackingfields)
+    trackingwriter.writeheader()
+    reader = csv.DictReader(f)
+    for line in reader:
         trial = line['trial']
         image = line['image']
         data = line['tracking data']
-        TIME = re.search(r"(?<=TIME=\")[0-9\.]+", line).group(0)
-        FPOGX = re.search(r"(?<=FPOGX=\")[0-9\.]+", line).group(0)
-        FPOGY = re.search(r"(?<=FPOGY=\")[0-9\.]+", line).group(0)
-        FPOGS = re.search(r"(?<=FPOGS=\")[0-9\.]+", line).group(0)
-        FPOGD = re.search(r"(?<=FPOGD=\")[0-9\.]+", line).group(0)
-        FPOGID = re.search(r"(?<=FPOGID=\")[0-9\.]+", line).group(0)
-        FPOGV = re.search(r"(?<=FPOGV=\")[0-9\.]+", line).group(0)
-        BPOGX = re.search(r"(?<=BPOGX=\")[0-9\.]+", line).group(0)
-        BPOGY = re.search(r"(?<=BPOGY=\")[0-9\.]+", line).group(0)
-        BPOGV = re.search(r"(?<=BPOGV=\")[0-9\.]+", line).group(0)
-        trackingwriter.writerow({'trial':trial, 'image':image, 'time':TIME, 'Fixation POG X':FPOGX, 'Fixation POG Y':FPOGY, 'Fixation POG time since calibration':FPOGS, 'Fixation POG duration':FPOGD, 'Fixation POG ID':FPOGID, 'Valid POG fixation?':FPOGV, 'Best POG X':BPOGX, 'Best POG Y':BPOGY, 'Valid Best POG fixation?':BPOGV})
-
-
-trackingfile_read.close()
-trackingfile_write.close()
+        if re.search("\<REC ", data):
+            TIME = re.search(r"(?<=TIME=\")[0-9\.]+", data).group(0)
+            FPOGX = re.search(r"(?<=FPOGX=\")[0-9\.]+", data).group(0)
+            FPOGY = re.search(r"(?<=FPOGY=\")[0-9\.]+", data).group(0)
+            FPOGS = re.search(r"(?<=FPOGS=\")[0-9\.]+", data).group(0)
+            FPOGD = re.search(r"(?<=FPOGD=\")[0-9\.]+", data).group(0)
+            FPOGID = re.search(r"(?<=FPOGID=\")[0-9\.]+", data).group(0)
+            FPOGV = re.search(r"(?<=FPOGV=\")[0-9\.]+", data).group(0)
+            BPOGX = re.search(r"(?<=BPOGX=\")[0-9\.]+", data).group(0)
+            BPOGY = re.search(r"(?<=BPOGY=\")[0-9\.]+", data).group(0)
+            BPOGV = re.search(r"(?<=BPOGV=\")[0-9\.]+", data).group(0)
+            trackingwriter.writerow({'trial':trial, 'image':image, 'time':TIME, 'Fixation POG X':FPOGX, 'Fixation POG Y':FPOGY, 'Fixation POG time since calibration':FPOGS, 'Fixation POG duration':FPOGD, 'Fixation POG ID':FPOGID, 'Valid POG fixation?':FPOGV, 'Best POG X':BPOGX, 'Best POG Y':BPOGY, 'Valid Best POG fixation?':BPOGV})
