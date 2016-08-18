@@ -9,7 +9,7 @@ calibfields = ['data type', 'point', 'x calibration', 'y calibration', 'average 
 calibwriter = csv.DictWriter(calibfile, calibfields)
 calibwriter.writeheader()
 for line in calibration_results:
-    if re.search("CALIB_", line):
+    if re.search("CALIB_(START|RESULT)_PT", line):
         startresult = re.search(r"(?<=CALIB_)(START|RESULT)", line).group(0)
         #startresult = startresult.split("_")[1]
         point = re.search(r"(?<=PT=\")[0-9]", line).group(0)
@@ -26,9 +26,9 @@ for line in calibration_results:
         #valid_points = valid_points.split('"')[1]
         calibwriter.writerow({"data type":"SUMMARY", "average error":ave_error, "valid points":valid_points})
 
-calib_file.close()
+calibfile.close()
 
-trackingfile_read = open('testdata/trackingdata.csv', 'wb')
+trackingfile_read = open('testdata/trackingdata.csv', 'r')
 trackingreader = csv.DictReader(trackingfile_read)
 trackingfile_write = open('testdata/trackingdata_results.csv', 'wb')
 trackingfields = ['trial', 'image', 'time', 'Fixation POG X', 'Fixation POG Y', 'Fixation POG time since calibration', 'Fixation POG duration', 'Fixation POG ID', 'Valid POG fixation?', 'Best POG X', 'Best POG Y', 'Valid Best POG fixation?']
