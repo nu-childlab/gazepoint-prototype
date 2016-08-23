@@ -40,12 +40,12 @@ def main():
 
 
     ############File setup
-    calibrationfile = open(subject + "calibration_results.txt", 'wb')
+    calibrationfile = open(subject + "_calibration_results.txt", 'wb')
     responsefile = open(subject + "responses.csv", 'wb')
     responsefields = ['subject', 'trial', 'image', 'response', 'rt']
     responsewriter = csv.DictWriter(responsefile,responsefields)
     responsewriter.writeheader()
-    trackingfile = open(subject + "trackingdata.csv", 'wb')
+    trackingfile = open(subject + "_tracking_data.csv", 'wb')
     trackingfields = ['subject','trial', 'image', 'tracking data']
     trackingwriter = csv.DictWriter(trackingfile,trackingfields)
     trackingwriter.writeheader()
