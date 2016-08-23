@@ -1,5 +1,5 @@
 import socket
-from psychopy import core
+from psychopy import event,core
 import time
 
 class gazepoint_object():
@@ -65,7 +65,7 @@ class gazepoint_object():
         return results
 
     def get_data_until_response(self, keylist=['q']):
-        """Retrieves tracking data until a key is pressed. Returns the data gathered as a list of points."""
+        """Retrieves tracking data until a key in the given list (default is just q) is pressed. Returns the data gathered as a list of points."""
         results = []
         while not event.getKeys(keyList=keylist):
             rxdat = self.s.recv(1024)
